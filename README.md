@@ -3,8 +3,8 @@ Xposed实现的OkHttp日志拦截器，可添加Header &amp; Query参数
 
 ###  Log示例
 
-
- ┌─────────────────────────────────────────────────────────────────────────────────────
+```
+ ┌───────────────────────────────────────────────────────
  │ --> POST http://******/user/detail?customQueryKey=customQueryValue http/1.1 (50-byte body)
  │ Content-Type: application/x-www-form-urlencoded
  │ Content-Length: 50
@@ -19,8 +19,8 @@ Xposed实现的OkHttp日志拦截器，可添加Header &amp; Query参数
  │ 
  │ {"code":1000,"message":"登录成功","result":{"userId":0,"username":"游客模式","password":null,"email":"mail.freevideo@mail.cn","presentAddress":"","avatar":"","sex":"保密","mobile":"","classes":0,"mustUrl":│"hSMGNEb3ZMMjlyYW5ndHA0TG1OdmJTOC9kWEpzUFE9Q=="}}
  │ <-- END HTTP (275-byte body)
- └───────────────────────────────────────────────────────────────────────────────────────
-
+ └────────────────────────────────────────────────────────
+```
 ###  Build
 ```
 new MyInterceptor.Builder()
