@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findMethodExact;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 
@@ -117,7 +118,9 @@ public class MyInterceptor {
                             long startNs = System.nanoTime();
                             Object response;
                             try {
-                                response = callMethod(chain,"proceed",request);
+                                Method proceed = findMethodExact("okhttp3.Interceptor.Chain",classLoader, "proceed", findClass("okhttp3.Request",classLoader));
+                                response = proceed.invoke(chain,request);
+//                                response = callMethod(chain,"proceed",request);
                             } catch (Exception e) {
                                 Log.d(TAG,DEF_LINT_START+"<-- HTTP FAILED: " + e);
                                 throw e;
@@ -192,7 +195,9 @@ public class MyInterceptor {
 
 
                         }catch (Exception e){
-                            Log.d(TAG,Log.getStackTraceString(e));
+//                            Log.d(TAG,Log.getStackTraceString(e));
+                            Log.d(TAG,"└───────────ERROR────────────────────────────────────────────────────────────────────────────");
+                            Log.d(TAG,"");
                         }
                     }
                 }
