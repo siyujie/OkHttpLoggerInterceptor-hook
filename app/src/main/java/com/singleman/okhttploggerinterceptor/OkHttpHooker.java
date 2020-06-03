@@ -6,6 +6,9 @@ import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 
+import static com.singleman.okhttploggerinterceptor.OkCompat.Cls_OkHttpClient$Builder;
+import static com.singleman.okhttploggerinterceptor.OkCompat.F_Builder_interceptors;
+import static com.singleman.okhttploggerinterceptor.OkCompat.M_Builder_build;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -29,15 +32,15 @@ public class OkHttpHooker {
 
         Class OkHttpClient_BuilderClass = null;
         try {
-            OkHttpClient_BuilderClass = Class.forName("okhttp3.OkHttpClient$Builder", true, classLoader);
+            OkHttpClient_BuilderClass = Class.forName(Cls_OkHttpClient$Builder, true, classLoader);
             if(null == OkHttpClient_BuilderClass){
                 return;
             }
-            findAndHookMethod(OkHttpClient_BuilderClass, "build", new XC_MethodHook() {
+            findAndHookMethod(OkHttpClient_BuilderClass, M_Builder_build, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    List interceptors = (List) getObjectField(param.thisObject, "interceptors");
+                    List interceptors = (List) getObjectField(param.thisObject, F_Builder_interceptors);
                     //添加自己的过滤器
                     interceptors.add(new MyInterceptor.Builder()
                             .addHeader("customHeaderKey","customHeaderValue")
