@@ -121,10 +121,8 @@ public class MyInterceptor {
                             long startNs = System.nanoTime();
                             Object response;
                             try {
-                                chain.getClass().getMethod(M_chain_proceed);
-                                Method chain_proceed = findMethodExact(chain.getClass(), M_chain_proceed, request);
+                                Method chain_proceed = chain.getClass().getMethod(M_chain_proceed, request.getClass());
                                 response = chain_proceed.invoke(chain,request);
-//                                response = callMethod(chain,M_chain_proceed,request);
                             } catch (Throwable e) {
                                 Log.d(TAG,DEF_LINT_START+"<-- HTTP FAILED: " + e);
                                 throw e;
